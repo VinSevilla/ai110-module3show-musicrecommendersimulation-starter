@@ -11,7 +11,11 @@ Your goal is to:
 - Evaluate what your system gets right and wrong
 - Reflect on how this mirrors real world AI recommenders
 
-Replace this paragraph with your own summary of what your version does.
+My version of the simple music recommender revolves around only 5 features: genre, mood, energy, valence, and "acousticness". This is to reduce the complexity of the system by removing redundancy. For example, songs with high temp or "dancability" tend to have high energy so the they were removed. As far as the algorithm goes, it is broken into two main parts: categorically and numerically. The categorical part of the score is based on genre and mood, while the numerical part uses energy, valence, and acoustics to handle audio relevancy. Visually, this creates a nonlinear scoring system where preference is not determined by a "higher is better" approach, but rather recommends based on how closely a song is to the users personal preference score that initially is set by whatever signals the user gives you.
+
+More specifically, this is what the system gets right. It its Preference-centered, not directional. It rewards closeness to a target rather than "more = better." A user who wants energy = 0.5 gets penalized equally for 0.2 and 0.8, that symmetry is correct for taste. It is also simple and interpretable. Every score is a plain number in [0, 1]. Easy to debug, easy to explain to a non-technical user. Some of the limitations are that it involves a lot of assumptions. For example, it assumes all differences are equally bad. It also Assumes the user knows their exact preference, which may result in a cold start problem.
+
+Conceptually, building a profile of what someone likes, then finding things that match it how I feel this project reflects the core logic of most recommendation systems.
 
 ---
 
@@ -41,6 +45,8 @@ You can include a simple diagram or bullet list if helpful.
    python -m venv .venv
    source .venv/bin/activate      # Mac or Linux
    .venv\Scripts\activate         # Windows
+
+   ```
 
 2. Install dependencies
 
@@ -101,12 +107,11 @@ Write 1 to 2 paragraphs here about what you learned:
 - about how recommenders turn data into predictions
 - about where bias or unfairness could show up in systems like this
 
-
 ---
 
 ## 7. `model_card_template.md`
 
-Combines reflection and model card framing from the Module 3 guidance. :contentReference[oaicite:2]{index=2}  
+Combines reflection and model card framing from the Module 3 guidance. :contentReference[oaicite:2]{index=2}
 
 ```markdown
 # 🎧 Model Card - Music Recommender Simulation
@@ -158,6 +163,7 @@ Describe your dataset.
 Where does your recommender work well
 
 You can think about:
+
 - Situations where the top results "felt right"
 - Particular user profiles it served well
 - Simplicity or transparency benefits
@@ -169,6 +175,7 @@ You can think about:
 Where does your recommender struggle
 
 Some prompts:
+
 - Does it ignore some genres or moods
 - Does it treat all users as if they have the same taste shape
 - Is it biased toward high energy or one genre by default
@@ -181,6 +188,7 @@ Some prompts:
 How did you check your system
 
 Examples:
+
 - You tried multiple user profiles and wrote down whether the results matched your expectations
 - You compared your simulation to what a real app like Spotify or YouTube tends to recommend
 - You wrote tests for your scoring logic
@@ -208,4 +216,4 @@ A few sentences about what you learned:
 - What surprised you about how your system behaved
 - How did building this change how you think about real music recommenders
 - Where do you think human judgment still matters, even if the model seems "smart"
-
+```
