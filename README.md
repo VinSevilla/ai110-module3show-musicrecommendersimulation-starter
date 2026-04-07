@@ -13,7 +13,7 @@ Your goal is to:
 
 My version of the simple music recommender revolves around only 5 features: genre, mood, energy, valence, and "acousticness". This is to reduce the complexity of the system by removing redundancy. For example, songs with high temp or "dancability" tend to have high energy so the they were removed. As far as the algorithm goes, it is broken into two main parts: categorically and numerically. The categorical part of the score is based on genre and mood, while the numerical part uses energy, valence, and acoustics to handle audio relevancy. Visually, this creates a nonlinear scoring system where preference is not determined by a "higher is better" approach, but rather recommends based on how closely a song is to the users personal preference score that initially is set by whatever signals the user gives you.
 
-More specifically, this is what the system gets right. It its Preference-centered, not directional. It rewards closeness to a target rather than "more = better." A user who wants energy = 0.5 gets penalized equally for 0.2 and 0.8, that symmetry is correct for taste. It is also simple and interpretable. Every score is a plain number in [0, 1]. Easy to debug, easy to explain to a non-technical user. Some of the limitations are that it involves a lot of assumptions. For example, it assumes all differences are equally bad. It also Assumes the user knows their exact preference, which may result in a cold start problem.
+More specifically, this is what the system gets right. It is Preference-centered, not directional. It rewards closeness to a target rather than "more = better." A user who wants energy = 0.5 gets penalized equally for 0.2 and 0.8, that symmetry is correct for taste. It is also simple and interpretable. Every score is a plain number in [0, 1]. Easy to debug, easy to explain to a non-technical user. Some of the limitations are that it involves a lot of assumptions. For example, it assumes all differences are equally bad. It also Assumes the user knows their exact preference, which may result in a cold start problem.
 
 Conceptually, building a profile of what someone likes, then finding things that match it how I feel this project reflects the core logic of most recommendation systems.
 
@@ -22,7 +22,6 @@ Conceptually, building a profile of what someone likes, then finding things that
 ## How The System Works
 
 Explain your design in plain language.
-
 Some prompts to answer:
 
 - What features does each `Song` use in your system
@@ -32,6 +31,10 @@ Some prompts to answer:
 - How do you choose which songs to recommend
 
 You can include a simple diagram or bullet list if helpful.
+
+Real-world recommenders like Spotify or Netflix work by building a profile of what a person likes and then finding content that matches it. They observe what users play, skip, and repeat. Over time they build a picture of your taste and use it to score every available option, ranking the closest matches first. My version prioritizes the same core loop.
+
+My version of the simple music recommender characterizes a song using only 5 features: genre, mood, energy, valence, and "acousticness". This is to reduce the complexity of the system by removing redundancy. For example, songs with high temp or "dancability" tend to have high energy so the they were removed. As far as the algorithm goes, the 'Recommender' is broken into two main parts: categorically and numerically. The categorical part of the score is based on genre and mood, while the numerical part uses energy, valence, and acoustics to handle audio relevancy. Visually, this creates a nonlinear scoring system where preference is not determined by a "higher is better" approach, but rather recommends based on how closely a song is to the users personal preference score that initially is set by whatever signals the user gives you. It is Preference-centered, not directional. It rewards closeness to a target rather than "more = better." A user who wants energy = 0.5 gets penalized equally for 0.2 and 0.8, that symmetry is correct for taste.
 
 ---
 
@@ -69,6 +72,14 @@ pytest
 ```
 
 You can add more tests in `tests/test_recommender.py`.
+
+---
+
+## Sample Output
+
+Running `python src/main.py` with the default pop/happy profile produces:
+
+![Terminal output showing top 5 recommendations](Screenshot%202026-04-07%20at%2011.48.37%20AM.png)
 
 ---
 
@@ -144,6 +155,13 @@ Describe your scoring logic in plain language.
 - How does it turn those into a number
 
 Try to avoid code in this section, treat it like an explanation to a non programmer.
+
+The system considers five things about each song: its genre, its mood, how energetic it is, how positive it sounds, and how acoustic or produced it feels.
+
+It compares those five things against what the user told it they prefer. Two of those comparisons are simple yes-or-no checks, so either the song's genre matches the user's favorite genre, or it doesn't. Same goes for mood. If it matches, the song gets bonus points. If it doesn't, it gets nothing.
+The other three: energy, positivity, and acousticness are numerically scored. If the user wants high-energy music and a song is very close to that target, it scores near-perfectly for that feature. The further a song drifts from the target in either direction, the lower it scores. There is no "higher is always better", a song that is too intense scores just as poorly as one that is too quiet, if the user's target is somewhere in the middle.
+
+Each of the five features contributes a different amount to the final number. Genre match is worth the most because it is the strongest signal of what someone likes. Mood is worth less because the boundary is softer — two moods can feel similar even if they have different labels. Energy carries the most weight of the three numerical features because it has the widest range across the catalog and tends to determine whether a song feels right more than the others. Finally, all five contributions are added together into a single score between 0 and 6. The songs with the highest scores are the ones recommended.
 
 ---
 
