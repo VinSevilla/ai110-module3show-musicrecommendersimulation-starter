@@ -71,20 +71,20 @@ def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
     score = 0.0
     reasons = []
 
-    # Genre match — strongest categorical signal
+    # Genre match — halved from 2.0 to 1.0 (experiment: reduce filter bubble dominance)
     if song["genre"] == user_prefs["genre"]:
-        score += 2.0
-        reasons.append("genre match (+2.0)")
+        score += 1.0
+        reasons.append("genre match (+1.0)")
 
     # Mood match — secondary categorical signal
     if song["mood"] == user_prefs["mood"]:
         score += 1.0
         reasons.append("mood match (+1.0)")
 
-    # Energy similarity — widest range in catalog, weighted highest
-    energy_score = (1 - abs(song["energy"] - user_prefs["energy"])) * 1.5
+    # Energy similarity — doubled from ×1.5 to ×3.0 (experiment: audio feel over label)
+    energy_score = (1 - abs(song["energy"] - user_prefs["energy"])) * 3.0
     score += energy_score
-    reasons.append(f"energy similarity ({energy_score:.2f}/1.50)")
+    reasons.append(f"energy similarity ({energy_score:.2f}/3.00)")
 
     # Valence similarity — separates bright from dark tracks
     valence_score = (1 - abs(song["valence"] - user_prefs["valence"])) * 1.0
