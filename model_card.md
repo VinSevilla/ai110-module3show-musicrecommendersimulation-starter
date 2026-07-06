@@ -3,7 +3,7 @@
 ## 1. Model Name
 
 Give your model a short, descriptive name.  
-Example: **Shazoo 1.0**
+Example: **Shazoom 1.0**
 
 ---
 
@@ -17,7 +17,7 @@ Prompts:
 - What assumptions does it make about the user
 - Is this for real users or classroom exploration
 
-This is a classroom project that recommends songs based on a user's taste profile. You give it a genre, a mood, and some numeric targets like energy level, and it finds the songs in the catalog that match most closely. It assumes the user already knows what they like and can describe it. This isn't meant for real users — it's just for learning how recommender systems work under the hood.
+This is a classroom project that recommends songs based on a user's taste profile. You give it a genre, a mood, and some numeric targets like energy level, and it finds the songs in the catalog that match most closely. It assumes the user already knows what they like and can describe it. This isn't meant as a professional product for real users but it's a good resource for practicing how recommender systems work under the hood.
 
 ---
 
@@ -36,7 +36,7 @@ Avoid code here. Pretend you are explaining the idea to a friend who does not pr
 
 Basically the system looks at 5 things about each song — genre, mood, energy, valence (how positive it sounds), and acousticness (how produced vs. organic it sounds). It compares those to what the user said they want and gives each song a score out of 6.
 
-Genre and mood are simple yes or no checks. If the song's genre matches yours, it gets +2 points. Mood match is +1. For energy, valence, and acousticness, it measures how close the song is to your target value — the closer, the more points. Energy carries the most weight because it has the widest range across songs.
+Genre and mood are simple yes or no checks. If the song's genre matches yours, it gets +2 points. Mood match is +1. For energy, valence, and acousticness, it measures how close the song is to your target value. The closer the target is, the more points. Energy carries the most weight because it has the widest range across songs.
 
 The scores get added up and the songs are sorted from highest to lowest. Top results get returned with a plain explanation of why each one made the cut.
 
@@ -69,7 +69,7 @@ Prompts:
 - Any patterns you think your scoring captures correctly
 - Cases where the recommendations matched your intuition
 
-It works really well when the user's genre is well represented in the catalog. The Chill Lofi and High-Energy Pop profiles both gave results that felt spot on — like exactly what someone with those tastes would want. The scoring also handles opposite ends of the spectrum well, so a high-energy user and a low-energy user both get results that make sense without one side being favored over the other. Another thing that works well is the explanation — every recommendation tells you exactly why it was picked, which makes the whole thing feel transparent and easy to understand.
+It works really well when the user's genre is well represented in the catalog. The Chill Lofi and High-Energy Pop profiles both gave results that felt spot on like exactly what someone with those tastes would want. The scoring also handles opposite ends of the spectrum well, so a high-energy user and a low-energy user both get results that make sense without one side being favored over the other. Another thing that works well is the explanation. Every recommendation tells you exactly why it was picked, which makes the whole thing feel transparent and easy to understand.
 
 ---
 
